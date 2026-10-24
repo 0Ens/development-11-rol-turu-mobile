@@ -6,3 +6,17 @@ export function toCurrentWeather(apiResponse){
     return {temperature: temp , description: describeWeatherCode(descriptionCode)};
 
 }
+
+export function toCity(geocodingResponse) {
+    const first = geocodingResponse.results?.[0];
+    if (!first) {
+        return null;
+    }
+    return {
+        id: first.id,
+        name: first.name,
+        country: first.country,
+        latitude: first.latitude,
+        longitude: first.longitude
+    };
+}
