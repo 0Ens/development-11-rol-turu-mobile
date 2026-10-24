@@ -1,4 +1,4 @@
-import { toCurrentWeather } from "../transform";
+import { toCurrentWeather, toCity } from "../transform";
 
 test("API cevabini ekran modeline cevir", () => {
     const fakeResponse = {
@@ -20,4 +20,36 @@ test("sicakligi yukari yuvarlar", () => {
         temperature: 18,
         description: "Sis"
     });
+});
+
+test("geocoding cevabindan ilk sehri cikarir", () => {
+    const fakeResponse = {
+        results: [
+            {
+                id: 323786,
+                name: "Ankara",
+                latitude: 39.91987,
+                longitude: 32.85427,
+                country: "Türkiye Cumhuriyeti",
+                population: 3517182,
+                timezone: "Europe/Istanbul"
+            }
+        ]
+    };
+
+    expect(toCity(fakeResponse)).toEqual({
+        id: 323786,
+        name: "Ankara",
+        country: "Türkiye Cumhuriyeti",
+        latitude: 39.91987,
+        longitude: 32.85427
+    });
+});
+
+test("sonuc yoksa null dondurur", () => {
+    expect(toCity({ generationtime_ms: 0.13 })).toBeNull();
+});
+
+test("sonuc listesi bossa null dondurur", () => {
+    expect(toCity({ results: [] })).toBeNull();
 });
