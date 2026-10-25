@@ -12,7 +12,7 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import { loadCities, saveCities } from "./src/storage/cityStorage";
 import { searchCity } from "./src/api/openMeteo";
-import { addCity } from "./src/core/cities";
+import { addCity, removeCity } from "./src/core/cities";
 
 export default function App() {
   const [cities, setCities] = useState([]);
@@ -60,6 +60,11 @@ export default function App() {
     }
   }
 
+  async function handleRemove(cityId) {
+    const updatedCities = removeCity(cities, cityId);
+    setCities(updatedCities);
+    await saveCities(updatedCities);
+  }
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
@@ -93,10 +98,13 @@ export default function App() {
             data={cities}
             keyExtractor={(city) => String(city.id)}
             renderItem={({ item }) => (
-              <View style={styles.row}>
+              <Pressable
+                style={styles.row}
+                onLongPress={() => handleRemove(item.id)}
+              >
                 <Text style={styles.cityName}>{item.name}</Text>
                 <Text style={styles.country}>{item.country}</Text>
-              </View>
+              </Pressable>
             )}
             ListEmptyComponent={
               <Text style={styles.emptyText}>Henüz şehir eklemedin</Text>
