@@ -96,6 +96,9 @@ export default function App() {
         </View>
 
         {addError ? <Text style={styles.errorText}>{addError}</Text> : null}
+        {cities.length > 0 ? (
+          <Text style={styles.hint}>Silmek için şehre basılı tut</Text>
+        ) : null}
 
         {isLoading ? (
           <ActivityIndicator size="large" />
@@ -169,4 +172,5 @@ const styles = StyleSheet.create({
     color: "#888",
     marginTop: 32,
   },
+  hint: { fontSize: 13, color: "#888", marginTop: 8 },
 });
