@@ -29,6 +29,7 @@ export default function App() {
   const [query, setQuery] = useState("");
   const [isAdding, setIsAdding] = useState(false);
   const [addError, setAddError] = useState(null);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   async function handleAdd() {
     const name = query.trim();
@@ -66,6 +67,10 @@ export default function App() {
     setCities(updatedCities);
     await saveCities(updatedCities);
   }
+
+  function handleRefresh() {
+    setRefreshKey((key) => key + 1);
+  }
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
@@ -98,8 +103,14 @@ export default function App() {
           <FlatList
             data={cities}
             keyExtractor={(city) => String(city.id)}
+            refreshing={false}
+            onRefresh={handleRefresh}
             renderItem={({ item }) => (
-              <CityRow city={item} onLongPress={() => handleRemove(item.id)} />
+              <CityRow
+                city={item}
+                refreshKey={refreshKey}
+                onLongPress={() => handleRemove(item.id)}
+              />
             )}
             ListEmptyComponent={
               <Text style={styles.emptyText}>Henüz şehir eklemedin</Text>

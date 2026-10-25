@@ -8,13 +8,15 @@ import {
 } from "react-native";
 import { fetchCurrentWeather } from "../api/openMeteo";
 
-export default function CityRow({ city, onLongPress }) {
+export default function CityRow({ city, refreshKey, onLongPress }) {
   const [weather, setWeather] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     async function loadWeather() {
+      setIsLoading(true);
+      setError(null);
       try {
         const result = await fetchCurrentWeather(city);
         setWeather(result);
@@ -25,8 +27,7 @@ export default function CityRow({ city, onLongPress }) {
       }
     }
     loadWeather();
-  }, [city]);
-
+  }, [city, refreshKey]);
   return (
     <Pressable style={styles.row} onLongPress={onLongPress}>
       <View>
