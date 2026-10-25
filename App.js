@@ -13,6 +13,7 @@ import { StatusBar } from "expo-status-bar";
 import { loadCities, saveCities } from "./src/storage/cityStorage";
 import { searchCity } from "./src/api/openMeteo";
 import { addCity, removeCity } from "./src/core/cities";
+import CityRow from "./src/components/CityRow";
 
 export default function App() {
   const [cities, setCities] = useState([]);
@@ -98,13 +99,7 @@ export default function App() {
             data={cities}
             keyExtractor={(city) => String(city.id)}
             renderItem={({ item }) => (
-              <Pressable
-                style={styles.row}
-                onLongPress={() => handleRemove(item.id)}
-              >
-                <Text style={styles.cityName}>{item.name}</Text>
-                <Text style={styles.country}>{item.country}</Text>
-              </Pressable>
+              <CityRow city={item} onLongPress={() => handleRemove(item.id)} />
             )}
             ListEmptyComponent={
               <Text style={styles.emptyText}>Henüz şehir eklemedin</Text>
@@ -157,19 +152,6 @@ const styles = StyleSheet.create({
   errorText: {
     color: "#dc2626",
     marginTop: 8,
-  },
-  country: {
-    fontSize: 14,
-    color: "#888",
-  },
-  row: {
-    minHeight: 56,
-    justifyContent: "center",
-    borderBottomWidth: 1,
-    borderBottomColor: "#eee",
-  },
-  cityName: {
-    fontSize: 18,
   },
   emptyText: {
     textAlign: "center",
