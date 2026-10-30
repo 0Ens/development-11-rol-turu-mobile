@@ -1,6 +1,6 @@
 # Hava Durumu
 
-Şehir ekleyip anlık sıcaklığını ve hava durumunu gösteren basit bir Expo (React Native) uygulaması. Veriler [Open-Meteo](https://open-meteo.com/) API'sinden gelir, şehir listesi telefonda saklanır.
+[Open-Meteo](https://open-meteo.com/)'dan anlık hava durumu gösteren, şehir listesini telefonda saklayan Expo (React Native) uygulaması.
 
 <img src="docs/screenshot.jpeg" alt="Uygulama ekran görüntüsü" width="300" />
 
